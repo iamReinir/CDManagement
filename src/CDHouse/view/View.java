@@ -13,7 +13,7 @@ public interface View {
 
     public String getString(String prompt);
 
-    public int getInteger(String prompt);
+    public Integer getInteger(String prompt);
 
-    public double getDouble(String prompt);
+    public Double getDouble(String prompt);
 }

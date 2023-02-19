@@ -34,9 +34,12 @@ public class Terminal implements View {
         if (collectionName == null) {
             return null;
         }
-        double price;
+        Double price;
         while (true) {
             price = getDouble("CD price");
+            if (price == null) {
+                return null;
+            }
             if (price <= 0) {
                 alert("Please enter a positive number!");
                 continue;
@@ -51,6 +54,9 @@ public class Terminal implements View {
     }
 
     public void update(CD tar) {
+        show(tar);
+        alert("Updating this CD. Leave field blank if you don't want to change infomation.");
+        pause();
         String title = getString("Title");
         if (title.equals("")) {
             title = tar.title;
@@ -71,9 +77,12 @@ public class Terminal implements View {
         if (collectionName == null) {
             collectionName = tar.collectionName;
         }
-        double price;
+        Double price;
         while (true) {
             price = getDouble("CD price");
+            if (price == null) {
+                price = tar.price;
+            }
             if (price <= 0) {
                 alert("Please enter a positive number!");
                 continue;
@@ -89,7 +98,8 @@ public class Terminal implements View {
         tar.pubYear = pubYear;
         tar.title = title;
         tar.type = type;
-
+        show(tar);
+        alert("Update sucess");
     }
 
     public static String showMenu(String[] menu) {
@@ -144,7 +154,10 @@ public class Terminal implements View {
         for (int i = 0; i < choices.length; ++i) {
             System.out.println((i + 1) + "." + choices[i]);
         }
-        int choose = getInteger("Choose [1.." + choices.length + "]");
+        Integer choose = getInteger("Choose [1.." + choices.length + "]");
+        if (choose == null) {
+            return null;
+        }
         if (choose - 1 < 0 || choose - 1 >= choices.length) {
             return null;
         }
@@ -152,35 +165,41 @@ public class Terminal implements View {
     }
 
     @Override
-    public int getInteger(String prompt) {
+    public Integer getInteger(String prompt) {
         while (true)
         try {
-            String res = getString("Enter an integer:");
-            int result = Integer.parseInt(res);
+            String res = getString(prompt);
+            if (res.equals("")) {
+                return null;
+            }
+            Integer result = Integer.parseInt(res);
             return result;
         } catch (NumberFormatException ex) {
             if (true) {
                 show("Please enter an Integer");
-                continue;
             }
-            return 0;
         }
     }
 
     @Override
-    public double getDouble(String prompt) {
+    public Double getDouble(String prompt) {
         while (true)
         try {
             String res = getString(prompt);
+            if (res.equals("")) {
+                return null;
+            }
             Double result = Double.parseDouble(res);
             return result;
         } catch (NumberFormatException ex) {
             if (true) {
                 show("Please enter a number!");
-                continue;
             }
-            return 0;
         }
     }
 
+    public void pause() {
+        alert("Press ENTER to continues...");
+        sc.nextLine();
+    }
 }

@@ -5,6 +5,7 @@
 package CDHouse.model;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 /**
  *
@@ -30,6 +31,31 @@ public class DynamicArray<T> implements Serializable {
             resize(2 * capacity);
         }
         array[size++] = item;
+        return true;
+    }
+
+    public boolean remove(T item) {
+        int target = -1;
+        for (int i = 0; i < size; ++i) {
+            if (item == get(i)) {
+                target = i;
+                break;
+            }
+        }
+        if (target == -1) {
+            return false;
+        }
+        return remove(target);
+    }
+
+    public boolean remove(int index) {
+        if (index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        for (int i = index; i < size - 1; ++i) {
+            array[i] = array[i + 1];
+        }
+        size--;
         return true;
     }
 
@@ -62,5 +88,18 @@ public class DynamicArray<T> implements Serializable {
         this.capacity = x.capacity;
         this.size = x.size;
         return true;
+    }
+
+    //A worse version of selection sort
+    public void sort(Comparator<T> x) {
+        for (int i = 0; i < size - 1; ++i) {
+            for (int j = i + 1; j < size; ++j) {
+                if (x.compare(get(i), get(j)) > 0) {
+                    T temp = array[i];
+                    array[i] = array[j];
+                    array[j] = temp;
+                }
+            }
+        }
     }
 }
