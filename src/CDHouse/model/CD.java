@@ -1,10 +1,12 @@
 package CDHouse.model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author NguyenXuanTrung QE170172
  */
-public abstract class CD {
+public abstract class CD implements Serializable {
     private String collectionName = "";
     private String title = "";
     private double price = 0.0;
