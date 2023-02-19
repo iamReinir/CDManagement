@@ -4,11 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Giga%20P34/Documents/NetBeansProjects/CDManagement/src/CDHouse/view/Terminal.java</file>
-            <file>file:/C:/Users/Giga%20P34/Documents/NetBeansProjects/CDManagement/src/CDHouse/model/AudioCD.java</file>
-            <file>file:/C:/Users/Giga%20P34/Documents/NetBeansProjects/CDManagement/src/CDHouse/model/VideoCD.java</file>
+            <file>file:/C:/Users/Giga%20P34/Documents/NetBeansProjects/CDManagement/src/CDHouse/CDManagement.java</file>
+            <file>file:/C:/Users/Giga%20P34/Documents/NetBeansProjects/CDManagement/src/CDHouse/model/DynamicArray.java</file>
             <file>file:/C:/Users/Giga%20P34/Documents/NetBeansProjects/CDManagement/src/CDHouse/model/Catalog.java</file>
             <file>file:/C:/Users/Giga%20P34/Documents/NetBeansProjects/CDManagement/src/CDHouse/view/View.java</file>
-            <file>file:/C:/Users/Giga%20P34/Documents/NetBeansProjects/CDManagement/src/CDHouse/model/CDFactory.java</file>
+            <file>file:/C:/Users/Giga%20P34/Documents/NetBeansProjects/CDManagement/src/CDHouse/control/Controller.java</file>
             <file>file:/C:/Users/Giga%20P34/Documents/NetBeansProjects/CDManagement/src/CDHouse/model/CD.java</file>
         </group>
     </open-files>
