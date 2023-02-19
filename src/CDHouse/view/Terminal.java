@@ -1,8 +1,7 @@
 package CDHouse.view;
 
+import CDHouse.control.Controller;
 import CDHouse.model.CD;
-import CDHouse.model.VideoCD;
-import CDHouse.model.AudioCD;
 import java.util.Scanner;
 
 /**
@@ -11,42 +10,86 @@ import java.util.Scanner;
  */
 public class Terminal implements View {
 
-    @Override
-    public CD add() {
-        Scanner sc = new Scanner(System.in);
-        String collectionName;
-        String title;
-        String id;
-        double price;
-        String type;
-        System.out.print("Collection name:");
-        collectionName = sc.nextLine();
-        System.out.print("Title:");
-        title = sc.nextLine();
-        System.out.print("ID:");
-        id = sc.nextLine();
+    Scanner sc = new Scanner(System.in);
+
+    public CD add(String id) {
+
+        String title = getString("Title");
+        if (title.equals("")) {
+            return null;
+        }
+        String pubYear;
         while (true) {
-            System.out.print("Price (please enter a positive number):");
-            try {
-                price = Double.parseDouble(sc.nextLine());
-            } catch (NumberFormatException e) {
+            pubYear = getString("Publish year:");
+            if (pubYear.equals("")) {
+            return null;
+            }
+            if (pubYear.matches("[0-9]+") == false) {
+                alert("Please only enter year number!");
                 continue;
             }
-            if (price > 0) {
-                break;
-            }
+            break;
         }
+        String collectionName = multipleChoice("Collection name", Controller.collections);
+        if (collectionName == null) {
+            return null;
+        }
+        double price;
         while (true) {
-            System.out.println("Type (audio or video):");
-            type = sc.nextLine();
-            switch (type) {
-                case "audio":
-                    return new AudioCD(collectionName, title, price, id);
-                case "video":
-                    return new VideoCD(collectionName, title, price, id);
-                default:
+            price = getDouble("CD price");
+            if (price <= 0) {
+                alert("Please enter a positive number!");
+                continue;
             }
+            break;
         }
+        String type = multipleChoice("CD type", Controller.types);
+        if (type == null) {
+            return null;
+        }
+        return new CD(id, title, pubYear, collectionName, type, price);
+    }
+
+    public void update(CD tar) {
+        String title = getString("Title");
+        if (title.equals("")) {
+            title = tar.title;
+        }
+        String pubYear;
+        while (true) {
+            pubYear = getString("Publish year:");
+            if (pubYear.equals("")) {
+                pubYear = tar.pubYear;
+            }
+            if (pubYear.matches("[0-9]+") == false) {
+                alert("Please only enter year number!");
+                continue;
+            }
+            break;
+        }
+        String collectionName = multipleChoice("Collection name", Controller.collections);
+        if (collectionName == null) {
+            collectionName = tar.collectionName;
+        }
+        double price;
+        while (true) {
+            price = getDouble("CD price");
+            if (price <= 0) {
+                alert("Please enter a positive number!");
+                continue;
+            }
+            break;
+        }
+        String type = multipleChoice("CD type", Controller.types);
+        if (type == null) {
+            type = tar.type;
+        }
+        tar.collectionName = collectionName;
+        tar.price = price;
+        tar.pubYear = pubYear;
+        tar.title = title;
+        tar.type = type;
+
     }
 
     public static String showMenu(String[] menu) {
@@ -67,38 +110,77 @@ public class Terminal implements View {
 
     @Override
     public void show(Object x) {
-        if (x instanceof CD) {
-
-        }
+        System.out.println(String.valueOf(x));
     }
 
-    private void showCD(CD x) {
-
+    public void show(CD x) {
+        System.out.println("CD " + x.id + ":");
+        System.out.println("Title : " + x.title);
+        System.out.println("Publish year : " + x.pubYear);
+        System.out.println("Collection name : " + x.collectionName);
+        System.out.println("CD type : " + x.type);
+        System.out.println("Price : " + x.price);
     }
 
     @Override
     public void alert(String msg) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        System.out.println(msg);
     }
 
     @Override
     public boolean confirm(String msg) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String res = getString(msg + "(enter Y to confirm)");
+        return (res.equals("Y") || res.equals("y"));
     }
 
     @Override
     public String getString(String prompt) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        System.out.print(prompt + ":");
+        return sc.nextLine();
+    }
+
+    public String multipleChoice(String prompt, String[] choices) {
+        show(prompt);
+        for (int i = 0; i < choices.length; ++i) {
+            System.out.println((i + 1) + "." + choices[i]);
+        }
+        int choose = getInteger("Choose [1.." + choices.length + "]");
+        if (choose - 1 < 0 || choose - 1 >= choices.length) {
+            return null;
+        }
+        return choices[choose - 1];
     }
 
     @Override
-    public String getInteger(String prompt) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int getInteger(String prompt) {
+        while (true)
+        try {
+            String res = getString("Enter an integer:");
+            int result = Integer.parseInt(res);
+            return result;
+        } catch (NumberFormatException ex) {
+            if (true) {
+                show("Please enter an Integer");
+                continue;
+            }
+            return 0;
+        }
     }
 
     @Override
-    public String getDouble(String prompt) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public double getDouble(String prompt) {
+        while (true)
+        try {
+            String res = getString(prompt);
+            Double result = Double.parseDouble(res);
+            return result;
+        } catch (NumberFormatException ex) {
+            if (true) {
+                show("Please enter a number!");
+                continue;
+            }
+            return 0;
+        }
     }
 
 }

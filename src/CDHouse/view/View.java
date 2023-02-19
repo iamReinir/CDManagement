@@ -5,8 +5,6 @@ package CDHouse.view;
  */
 public interface View {
 
-    public Object add();
-
     public void show(Object x);
 
     public void alert(String msg);
@@ -15,7 +13,7 @@ public interface View {
 
     public String getString(String prompt);
 
-    public String getInteger(String prompt);
+    public int getInteger(String prompt);
 
-    public String getDouble(String prompt);
+    public double getDouble(String prompt);
 }
